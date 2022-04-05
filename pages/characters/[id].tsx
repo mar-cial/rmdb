@@ -2,16 +2,19 @@ import { useRouter } from 'next/router'
 import PageLayout from '../../components/layout/pageLayout'
 import PropTitle from '../../components/propTitle'
 import { useGetCharacterDetailsQuery } from '../../redux/rmapi'
+import { Result } from '../../types/dataPages'
 
 const CharacterDetail = () => {
   const router = useRouter()
-  const { id } = router?.query
+  const { id } = router.query
   
   const { data, error, isLoading, isSuccess } = useGetCharacterDetailsQuery(id as string)
 
   if (error) {
     return
   }
+
+  const character: Result = typeof data !== 'undefined' ? data : {} as Result
 
   return (
     <PageLayout title="Character detail">
@@ -22,41 +25,41 @@ const CharacterDetail = () => {
           {isSuccess && (
             <>
               <header>
-                <img src={data.image} alt={`Avatar of: ${data.name}`} />
+                <img src={character.image} alt={`Avatar of: ${character.name}`} />
                 <div className="pt-4">
                   <PropTitle text="Name" />
-                  <h2 className="text-2xl font-semibold">{data.name}</h2>
+                  <h2 className="text-2xl font-semibold">{character.name}</h2>
                 </div>
               </header>
               <div>
                 <PropTitle text="Status" />
-                <p>{data.status}</p>
+                <p>{character.status}</p>
               </div>
               <div>
                 <PropTitle text="Species" />
-                <p>{data.species}</p>
+                <p>{character.species}</p>
               </div>
               <div>
                 <PropTitle text="Type" />
-                <p>{data.type}</p>
+                <p>{character.type}</p>
               </div>
               <div>
                 <PropTitle text="Gender" />
-                <p>{data.gender}</p>
+                <p>{character.gender}</p>
               </div>
               <div>
                 <PropTitle text="Origin" />
-                <p>{data.origin.name}</p>
-                <p>{data.origin.url}</p>
+                <p>{character.origin.name}</p>
+                <p>{character.origin.url}</p>
               </div>
               <div>
                 <PropTitle text="Location" />
-                <p>{data.location.name}</p>
-                <p>{data.location.url}</p>
+                <p>{character.location.name}</p>
+                <p>{character.location.url}</p>
               </div>
               <div>
                 <PropTitle text="Episodes" />
-                {data.episode.map((episode, i) => (
+                {character.episode.map((episode, i) => (
                   <p key={i}>{episode}</p>
                 ))}
               </div>
