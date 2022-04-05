@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { Result } from '../pages'
+import { Result } from '../types/dataPages'
 import PropTitle from './propTitle'
+import { motion } from 'framer-motion'
 
 type Props = {
   character: Result
@@ -13,7 +14,7 @@ const CharacterCard = ({ character }: Props) => {
       <header>
         <img src={character.image} alt={`Avatar of: ${character.name}`} className={'w-full'} />
         <div className='pt-2'>
-          <PropTitle text="Name" />
+          <PropTitle text={`ID: ${character.id}`}/>
           <h2 className="text-xl font-semibold">{character.name}</h2>
         </div>
       </header>
@@ -26,11 +27,11 @@ const CharacterCard = ({ character }: Props) => {
         <p>{character.origin.name}</p>
       </div>
       <div>
-        <button>
+        <motion.button className='flex w-full py-1 font-medium text-center text-black bg-white rounded-md' whileHover={{y: -2}} whileTap={{y:0}}>
           <Link href={`/characters/${character.id}`} passHref>
-            <a>get more details</a>
+            <a className='w-full h-full'>get more details</a>
           </Link>
-        </button>
+        </motion.button>
       </div>
     </article>
   )

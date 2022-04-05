@@ -1,27 +1,16 @@
-import { NextPage } from 'next'
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 import CharacterCard from '../../components/characterCard'
 import PageLayout from '../../components/layout/pageLayout'
-import { useGetAllCharactersQuery } from '../../redux/rmapi'
-import { Info, PageData, Result } from '../../types/dataPages'
+import PaginationButton from '../../components/paginationButton'
+import { useGetCharactersByNameQuery } from '../../redux/rmapi'
+import { Info, Result } from '../../types/dataPages'
 
-type PaginationButtonProps = {
-  text: string
-  fn: (event: React.MouseEvent<HTMLButtonElement>) => void
-}
+type Props = {}
 
-const PaginationButton: FC<PaginationButtonProps> = ({ text, fn }) => {
-  return (
-    <button onClick={fn} className={'border-2 border-white px-2 text-sm'}>
-      {text}
-    </button>
-  )
-}
-
-const CharactersPage: NextPage = () => {
+const SearchPage = (props: Props) => {
   const [page, setPage] = useState(1)
-  // using rtk query
-  const { data, error, isLoading, isFetching } = useGetAllCharactersQuery(page)
+  const [search, setSearch] = useState('rick')
+  const { data, error, isLoading } = useGetCharactersByNameQuery(search)
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -29,21 +18,25 @@ const CharactersPage: NextPage = () => {
   const results: Result[] = data?.results ? data.results : []
 
   const increasePage = (info: Info) => {
+    console.log(info)
     if (info.next !== null) {
       setPage(page + 1)
     }
   }
 
   const decreasePage = (info: Info) => {
+    console.log(info)
     if (info.prev !== null) {
       setPage(page - 1)
     }
   }
 
   return (
-    <PageLayout title="All characters">
+    <PageLayout title="Search">
       {isLoading ? (
-        <div>Loading...</div>
+        <div>
+          <h2>Loading...</h2>
+        </div>
       ) : (
         <>
           <div className="flex justify-between py-4">
@@ -52,13 +45,9 @@ const CharactersPage: NextPage = () => {
             <PaginationButton text="Increase" fn={() => increasePage(info)} />
           </div>
           <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {isFetching ? (
-              <h2>Wait a min...</h2>
-            ) : (
-              results.map((character: Result, i: number) => (
-                <CharacterCard character={character} key={i} />
-              ))
-            )}
+            {results.map((char, i) => (
+              <CharacterCard character={char} key={i} />
+            ))}
           </div>
         </>
       )}
@@ -66,4 +55,4 @@ const CharactersPage: NextPage = () => {
   )
 }
 
-export default CharactersPage
+export default SearchPage

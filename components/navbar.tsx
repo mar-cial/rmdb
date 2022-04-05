@@ -19,6 +19,10 @@ const Navbar = () => {
       url: '/episodes',
       text: 'Episodes',
     },
+    {
+      url: '/search',
+      text: 'Search'
+    }
   ]
 
   return (

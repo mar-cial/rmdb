@@ -1,4 +1,4 @@
-const getData = async (url: string) => {
+const getSingleData = async (url: string) => {
   try {
     const res = await fetch(url)
     const data = await res.json()
@@ -9,4 +9,4 @@ const getData = async (url: string) => {
   }
 }
 
-export default getData
+export default getSingleData

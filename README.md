@@ -8,4 +8,3 @@ Technogolies used:
 * [TypeScript](https://www.typescriptlang.org)
 * [RTK Query](https://redux-toolkit.js.org/rtk-query/overview)
 * [Tailwindcss](https://tailwindcss.com)
-   
