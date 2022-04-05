@@ -65,11 +65,11 @@ const CharacterDetail = () => {
               </div>
               <div>
                 <PropTitle text="URL" />
-                <p>{data.url}</p>
+                <p>{character.url}</p>
               </div>
               <div>
                 <PropTitle text="Creation date" />
-                <p>{data.created}</p>
+                <p>{character.created}</p>
               </div>
             </>
           )}
