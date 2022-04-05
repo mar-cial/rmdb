@@ -23,9 +23,7 @@ const CharactersPage: NextPage = () => {
   // using rtk query
   const { data, error, isLoading, isFetching } = useGetAllCharactersQuery(page)
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const info: Info = data?.info ? data.info : {}
+  const info: Info = data?.info ? data.info : {} as Info
   const results: Result[] = data?.results ? data.results : []
 
   const increasePage = (info: Info) => {

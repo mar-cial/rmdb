@@ -5,11 +5,9 @@ import { useGetCharacterDetailsQuery } from '../../redux/rmapi'
 
 const CharacterDetail = () => {
   const router = useRouter()
-  const { id } = router.query
+  const { id } = router?.query
   
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-  const { data, error, isLoading, isSuccess } = useGetCharacterDetailsQuery(id)
+  const { data, error, isLoading, isSuccess } = useGetCharacterDetailsQuery(id as string)
 
   if (error) {
     return
