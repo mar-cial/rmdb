@@ -9,7 +9,7 @@ const Navbar = () => {
     },
     {
       url: '/characters',
-      text: 'All characters',
+      text: 'Characters',
     },
     {
       url: '/locations',
@@ -21,7 +21,7 @@ const Navbar = () => {
     },
     {
       url: '/search',
-      text: 'Search'
+      text: 'Search - coming soon'
     }
   ]
 

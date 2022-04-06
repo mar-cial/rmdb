@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import PageLayout from '../../components/layout/pageLayout'
 import PropTitle from '../../components/propTitle'
 import { useGetCharacterDetailsQuery } from '../../redux/rmapi'
-import { Result } from '../../types/dataPages'
+import { Character } from '../../types/dataPages'
 
 const CharacterDetail = () => {
   const router = useRouter()
@@ -14,7 +14,7 @@ const CharacterDetail = () => {
     return
   }
 
-  const character: Result = typeof data !== 'undefined' ? data : {} as Result
+  const character: Character = typeof data !== 'undefined' ? data : {} as Character
 
   return (
     <PageLayout title="Character detail">

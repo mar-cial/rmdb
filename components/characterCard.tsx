@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { Result } from '../types/dataPages'
+import { Character } from '../types/dataPages'
 import PropTitle from './propTitle'
 import { motion } from 'framer-motion'
 
 type Props = {
-  character: Result
+  character: Character
 }
 
 const CharacterCard = ({ character }: Props) => {

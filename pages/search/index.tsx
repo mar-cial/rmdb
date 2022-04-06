@@ -3,7 +3,7 @@ import CharacterCard from '../../components/characterCard'
 import PageLayout from '../../components/layout/pageLayout'
 import PaginationButton from '../../components/paginationButton'
 import { useGetCharactersByNameQuery } from '../../redux/rmapi'
-import { Info, Result } from '../../types/dataPages'
+import { Info, Character } from '../../types/dataPages'
 
 type Props = {}
 
@@ -12,9 +12,8 @@ const SearchPage = (props: Props) => {
   const [search, setSearch] = useState('rick')
   const { data, error, isLoading } = useGetCharactersByNameQuery(search)
 
-  
   const info: Info = data?.info ? data.info : {} as Info
-  const results: Result[] = data?.results ? data.results : []
+  const results: Character[] = data?.results ? data.results : []
 
   const increasePage = (info: Info) => {
     console.log(info)

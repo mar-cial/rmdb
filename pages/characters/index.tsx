@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import CharacterCard from '../../components/characterCard'
 import PageLayout from '../../components/layout/pageLayout'
 import { useGetAllCharactersQuery } from '../../redux/rmapi'
-import { Info, PageData, Result } from '../../types/dataPages'
+import { Info, Character } from '../../types/dataPages'
 
 type PaginationButtonProps = {
   text: string
@@ -24,7 +24,7 @@ const CharactersPage: NextPage = () => {
   const { data, error, isLoading, isFetching } = useGetAllCharactersQuery(page)
 
   const info: Info = data?.info ? data.info : {} as Info
-  const results: Result[] = data?.results ? data.results : []
+  const results: Character[] = data?.results ? data.results : []
 
   const increasePage = (info: Info) => {
     if (info.next !== null) {
@@ -39,7 +39,7 @@ const CharactersPage: NextPage = () => {
   }
 
   return (
-    <PageLayout title="All characters">
+    <PageLayout title="Characters">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
@@ -53,7 +53,7 @@ const CharactersPage: NextPage = () => {
             {isFetching ? (
               <h2>Wait a min...</h2>
             ) : (
-              results.map((character: Result, i: number) => (
+              results.map((character: Character, i: number) => (
                 <CharacterCard character={character} key={i} />
               ))
             )}

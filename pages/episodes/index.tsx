@@ -1,19 +1,18 @@
 import { NextPage } from 'next'
 import React, { useState } from 'react'
 import PageLayout from '../../components/layout/pageLayout'
+import { useGetEpisodesQuery } from '../../redux/rmapi'
+import { Episode, Info } from '../../types/dataPages'
 import PaginationButton from '../../components/paginationButton'
 import PropTitle from '../../components/propTitle'
-import { useGetLocationsQuery } from '../../redux/rmapi'
-import { Info, Location, LocationPageData } from '../../types/dataPages'
-
 type Props = {}
 
-const LocationsPage: NextPage = (props: Props) => {
+const EpisodesPage: NextPage = (props: Props) => {
   const [page, setPage] = useState(1)
-  const { data, error, isLoading } = useGetLocationsQuery(page)
+  const { data, error, isLoading, isFetching } = useGetEpisodesQuery(page)
 
   const pageInfo: Info = data?.info ? data.info : ({} as Info)
-  const pageData: Location[] = data?.results ? data.results : []
+  const pageData: Episode[] = data?.results ? data.results : []
 
   const increasePage = (info: Info) => {
     if (info.next !== null) {
@@ -28,11 +27,9 @@ const LocationsPage: NextPage = (props: Props) => {
   }
 
   return (
-    <PageLayout title="Locations">
+    <PageLayout title='Episodes'>
       {isLoading ? (
-        <div>
-          <h2>Loading...</h2>
-        </div>
+        <div><h2>Loading...</h2></div>
       ) : (
         <>
           <div className="flex justify-between py-4">
@@ -40,40 +37,44 @@ const LocationsPage: NextPage = (props: Props) => {
             <h2 className="text-sm font-bold md:text-2xl">{`Page ${page} of ${pageInfo.pages}`}</h2>
             <PaginationButton text="Increase" fn={() => increasePage(pageInfo)} />
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-            {pageData.map((location, i) => (
+          {isFetching ? (
+            <div><h2>Fetching... wait a sec.</h2></div>
+          ) : (
+            <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+              {pageData.map((episode, i) => (
               <article
                 key={i}
                 className={'grid gap-3 border-2 border-white p-2'}
               >
                 <header className="border-b-2 border-white">
-                  <PropTitle text={`Location ID: ${location.id}`} />
-                  <h2 className="text-xl font-semibold">{location.name}</h2>
+                  <PropTitle text={`Location ID: ${episode.id}`} />
+                  <h2 className="text-xl font-semibold">{episode.name}</h2>
                 </header>
                 <div>
-                  <PropTitle text="Type" />
-                  <h3>{location.type}</h3>
+                  <PropTitle text="Air date" />
+                  <h3>{episode.air_date}</h3>
                 </div>
                 <div>
-                  <PropTitle text="Dimension" />
-                  <h3>{location.dimension === '' ? location.dimension : 'Unknown'}</h3>
+                  <PropTitle text="Episode" />
+                  <h3>{episode.episode}</h3>
                 </div>
                 <div>
                   <PropTitle text="Residents" />
                   <a
-                    href={location.url}
+                    href={episode.url}
                     className={'transition-all hover:text-green-500'}
                   >
-                    Click here to get check out the residents &gt;
+                    Click here to get check out the episodes &gt;
                   </a>
                 </div>
               </article>
             ))}
-          </div>
+            </div>
+          )}
         </>
       )}
     </PageLayout>
   )
 }
 
-export default LocationsPage
+export default EpisodesPage

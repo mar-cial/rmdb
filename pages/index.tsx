@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import PageLayout from '../components/layout/pageLayout'
 import PropTitle from '../components/propTitle'
 import { motion } from 'framer-motion'
-import { Result } from '../types/dataPages'
+import { Character } from '../types/dataPages'
 import { useGetAllCharactersQuery } from '../redux/rmapi'
 import { NextPage } from 'next'
 
 const RMAPI: NextPage = () => {
+  
   const [selectedChar, setSelecterChar] = useState(0)
-  const { data, error, isLoading } = useGetAllCharactersQuery(1)
+  const { data, error, isLoading } = useGetAllCharactersQuery(32)
 
   const info = data?.info ? data.info : {}
   const characters = data?.results ? data.results : []
@@ -56,7 +57,7 @@ const RMAPI: NextPage = () => {
             </div>
             {/* small avatars*/}
             <div className="grid grid-cols-4 gap-2 p-2 bg-gray-900 rounded-md md:grid-cols-7">
-              {characters.map((char: Result, i: number) => (
+              {characters.map((char: Character, i: number) => (
                 <motion.article
                   key={i}
                   whileTap={{ scale: 1.0 }}
