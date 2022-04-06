@@ -11,8 +11,14 @@ export const rmApi = createApi({
     getCharacterDetails: builder.query<Character, string>({
       query: (id) => `/character/${id}`
     }),
-    getCharactersByName: builder.query<CharacterPageData, string>({
-      query: (name) => `/character/?name=${name}`
+    getCharactersByName: builder.query<CharacterPageData, { page: number, name: string}>({
+      query: (arg) => {
+        const { page, name } = arg
+        return ({
+          url: `/character/?page=${page}&name=${name}`,
+          params: { page, name }
+        })
+      }
     }),
     getEpisodes: builder.query<EpisodePageData, number>({
       query: (page = 1) => `/episode?page=${page}`

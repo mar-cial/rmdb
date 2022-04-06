@@ -1,40 +1,58 @@
-import React, { useState } from 'react'
+import { NextPage } from 'next'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import CharacterCard from '../../components/characterCard'
 import PageLayout from '../../components/layout/pageLayout'
 import PaginationButton from '../../components/paginationButton'
 import { useGetCharactersByNameQuery } from '../../redux/rmapi'
 import { Info, Character } from '../../types/dataPages'
 
-type Props = {}
-
-const SearchPage = (props: Props) => {
+const SearchPage: NextPage = () => {
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('rick')
-  const { data, error, isLoading } = useGetCharactersByNameQuery(search)
+  const [search, setSearch] = useState('')
+  const { data, isLoading, isError } = useGetCharactersByNameQuery({
+    page: page,
+    name: search,
+  })
 
-  const info: Info = data?.info ? data.info : {} as Info
+  const info: Info = data?.info ? data.info : ({} as Info)
   const results: Character[] = data?.results ? data.results : []
 
   const increasePage = (info: Info) => {
-    console.log(info)
     if (info.next !== null) {
       setPage(page + 1)
     }
   }
 
   const decreasePage = (info: Info) => {
-    console.log(info)
     if (info.prev !== null) {
       setPage(page - 1)
     }
   }
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setPage(1)
+    setSearch(e.target.value)
+  }
+
   return (
     <PageLayout title="Search">
+      <div className="py-6">
+        <input
+          type={'text'}
+          id={'name'}
+          placeholder="Search character..."
+          value={search}
+          onChange={handleChange}
+          className={'border-2 border-white bg-black p-1 text-gray-400'}
+        />
+      </div>
       {isLoading ? (
         <div>
           <h2>Loading...</h2>
         </div>
+      ) : isError ? (
+        <div>Not found :/</div>
       ) : (
         <>
           <div className="flex justify-between py-4">

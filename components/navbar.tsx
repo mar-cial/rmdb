@@ -21,7 +21,7 @@ const Navbar = () => {
     },
     {
       url: '/search',
-      text: 'Search - coming soon'
+      text: 'Search'
     }
   ]
 

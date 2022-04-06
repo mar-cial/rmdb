@@ -27,7 +27,7 @@ const CharacterCard = ({ character }: Props) => {
         <p>{character.origin.name}</p>
       </div>
       <div>
-        <motion.button className='flex w-full py-1 font-medium text-center text-black bg-white rounded-md' whileHover={{y: -2}} whileTap={{y:0}}>
+        <motion.button className='flex w-full py-1 font-medium text-center border-2 border-white' whileHover={{y: -2}} whileTap={{y:0}}>
           <Link href={`/characters/${character.id}`} passHref>
             <a className='w-full h-full'>get more details</a>
           </Link>
