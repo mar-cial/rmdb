@@ -5,16 +5,21 @@ import { motion } from 'framer-motion'
 import { Character } from '../types/dataPages'
 import { useGetAllCharactersQuery } from '../redux/rmapi'
 import { NextPage } from 'next'
-
+import checkStatus from '../lib/checkStatus'
 const RMAPI: NextPage = () => {
   
   const [selectedChar, setSelecterChar] = useState(0)
   const { data, error, isLoading } = useGetAllCharactersQuery(32)
 
-  const info = data?.info ? data.info : {}
-  const characters = data?.results ? data.results : []
+  if (typeof data === 'undefined') { return <PageLayout title='Something went wrong'/> }
+  
+  const info = data.info
+  const characters = data.results
 
   const char = characters[selectedChar]
+  
+  console.log(info)
+  console.log(characters)
   
   return (
     <PageLayout title="Rick and Morty API">
@@ -28,11 +33,12 @@ const RMAPI: NextPage = () => {
             <h2 className="text-2xl font-bold">Characters</h2>
           </header>
 
-          <div className="grid gap-2 py-4 md:grid-cols-2">
+          <div className="grid gap-2 py-4 sm:grid-cols-2">
+
             {/* big avatar*/}
-            <div className="flex flex-col gap-4 p-2 bg-gray-900 rounded-md md:flex-row">
-              <div className="flex items-center justify-center">
-                <img src={char.image} className={'rounded-md md:w-3/4'} />
+            <div className="grid gap-4 p-2 bg-gray-900 rounded-md sm:grid-cols-2">
+              <div className="">
+                <img src={char.image} className={'rounded-md w-full'} />
               </div>
 
               {/* big avatar info*/}
@@ -43,7 +49,7 @@ const RMAPI: NextPage = () => {
                 </header>
                 <div>
                   <PropTitle text="status" />
-                  <p>{char.status}</p>
+                  <p>{checkStatus(char.status)}</p>
                 </div>
                 <div>
                   <PropTitle text="origin" />

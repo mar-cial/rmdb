@@ -5,7 +5,7 @@ import Navbar from '../navbar'
 
 type PageLayoutProps = {
   title: string
-  children: ReactNode
+  children?: ReactNode
 }
 
 const PageLayout = ({ title, children }: PageLayoutProps) => {
