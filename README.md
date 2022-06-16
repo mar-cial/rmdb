@@ -2,7 +2,7 @@
 Web application that consumes the [Rick and Morty Api](https://rickandmortyapi.com).
 Work in progress.
 
-Technogolies used:
+Technologies used:
 
 * [NextJs](https://nextjs.org)
 * [TypeScript](https://www.typescriptlang.org)
